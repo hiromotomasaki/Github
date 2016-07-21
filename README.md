@@ -16,3 +16,7 @@ git remote add origin https://github.com/hiromotomasaki/Github.git
 git push -u origin master
 ## 更新
 touch READEME.md
+git add .
+git status
+git commit -m 'commit'
+git push
