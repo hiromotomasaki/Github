@@ -6,16 +6,20 @@ $ sudo apt install tmux
 tmuxのマニュアルは
 [[http://manpages.ubuntu.com/manpages/precise/man1/tmux.1.html][ここ]]
 を参照すること。
+また、tmuxの概念は
+[[http://kanjuku-tomato.blogspot.jp/2014/02/tmux.html][ここ]]
+を参照すること。
 ** 設定
 *** 基本
 **** prefixキーの変更
 #+BEGIN_SRC sh
+unbind-key C-b
 set-option -g prefix C-z
 bind-key C-z send-prefix
-unbind-key C-b
 #+END_SRC
 **** ^ + r でtmuxの設定を更新する
 #+BEGIN_SRC sh
+unbind-key r
 bind r source-file ~/.tmux.conf
 #+END_SRC
 **** 日本語環境の設定
@@ -62,27 +66,98 @@ set-option -g default-terminal xterm-256color
 #+END_SRC
 
 *** キーバインド
+**** 横分割
+unbind 2
+bind 2 split-window -v
 
+**** 縦分割
+unbind 3
+bind 3 split-window -h
 
+**** カレントペインの削除
+unbind k
+bind k kill-pane
 
-http://qiita.com/zwirky/items/adbf22abad7d7822456b
+**** カレントウィンドウの削除
+unbind K
+bind K kill-window
 
-http://blog.catatsuy.org/a/243
+**** keybind一覧(終了はq)
+unbind ?
+bind ? list-keys
 
-http://qiita.com/catatsuy/items/db0a471bf1eabaa21c36
+**** コピーモード時にemacsのキーバインドを利用する
+set-window-option -g mode-keys emacs
 
-https://github.com/m-yuya/dotfiles/blob/master/bashrc/Ubuntu_bashrc/.bashrc
+**** コピーモードのコピー結果をクリップボードに渡す(#xselをインストールしておく必要あり)
+unbind -t emacs-copy M-w
+unbind -t emacs-copy C-w
+bind-key -t emacs-copy M-w copy-pipe "xsel -bi"
+bind-key -t emacs-copy C-w copy-pipe "xsel -bi"
 
-emacs風
-http://fnwiya.hatenablog.com/entry/2015/10/26/210000
+** 概念
+詳しくは
+[[http://kanjuku-tomato.blogspot.jp/2014/02/tmux.html][tmuxを使い始めたので基本的な機能の使い方とかを整理してみた]]
+を見ること。
 
-http://qiita.com/succi0303/items/cb396704493476373edf
+セッションはプロジェクト単位である。
+セッションは一時的にコンソールから切り離してバックグラウンドで残しておいて後から繋ぎ直す、といったことができる。
 
-http://qiita.com/murachi1208/items/36d7676558d5535b44db
-
-http://nekoyukimmm.hatenablog.com/entry/2016/04/08/130717
-
-http://qiita.com/koara-local/items/940ce66e2ecd8e4d8582
+ウィンドウとペインの違い
+- あるウィンドウ上のすべてのペインに対して一斉入力可能
 
 ** 使い方
+セッション(Session)とは何か
+- tmuxを起動すると生成されるtmuxの管理プロセス。なので、ひとつのサーバーに対して1つ?
+ウインドウ(Window)とは何か
+- 1つの仮想端末
+
+
 http://www.task-notes.com/entry/20150711/1436583600
+
+
+- セッションはプロジェクト単位で使う
+- ウィンドウはemacs起動用、その他用に分ける
+- その他用の方で複数のペインを利用する
+*** セッションに対して
+**** 新規セッション開始
+tmux new -s ProjectA
+**** 今のセッションをデタッチ
+^ d
+**** 新規セッション開始
+tmux new -s ProjectB
+**** 今のセッションをデタッチ
+^ d
+**** 現在のセッションリストの表示
+tmux ls
+**** ProjectBのセッションを終了する
+tmux kill-session -t ProjectB
+
+(すべてのセッションを終了するときにはtmux kill-serverとする)
+**** ProjectAのセッションにアタッチする
+tmux a -t ProjectA
+**** ProjectAの名前の変更
+tmux rename -t ProjectA Project
+*** ウィンドウ・ペインに対して
+**** 0番目のウィンドウの名前の変更
+^ ,
+
+Emacs
+**** ウィンドウの新規作成
+^ c
+**** 今作成した1番目のウィンドウの名前の変更
+^ ,
+
+Other
+**** ウィンドウの移動
+^ w
+**** ペインの作成(横分割)
+^ 2
+**** ペインの作成(縦分割)
+^ 3
+**** ペイン番号の確認
+^ q
+**** 現在のペインの終了
+^ k
+**** 現在のウィンドウの終了
+^ K
