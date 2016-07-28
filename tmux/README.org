@@ -113,10 +113,7 @@ bind-key -t emacs-copy C-w copy-pipe "xsel -bi"
 ウインドウ(Window)とは何か
 - 1つの仮想端末
 
-
-http://www.task-notes.com/entry/20150711/1436583600
-
-
+私の使い方
 - セッションはプロジェクト単位で使う
 - ウィンドウはemacs起動用、その他用に分ける
 - その他用の方で複数のペインを利用する
