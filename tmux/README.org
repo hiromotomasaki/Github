@@ -96,6 +96,8 @@ unbind -t emacs-copy C-w
 bind-key -t emacs-copy M-w copy-pipe "xsel -bi"
 
 bind-key -t emacs-copy C-w copy-pipe "xsel -bi"
+**** マウスでコピーアンドペースト用のウィンドウが出てくる(外部でコピーしたものをペーストする方法がわからないので、これで代用する。)
+bind-key -t emacs-copy Enter copy-pipe "cat | xsel -i --clipboard"
 ** 概念
 詳しくは
 [[http://kanjuku-tomato.blogspot.jp/2014/02/tmux.html][tmuxを使い始めたので基本的な機能の使い方とかを整理してみた]]
@@ -159,3 +161,15 @@ Other
 ^ k
 **** 現在のウィンドウの終了
 ^ K
+**** コピー
+***** コピーモードに入る
+^ [
+***** 範囲選択開始
+C-@
+***** コピー
+M-w
+**** ペースト
+***** ターミナル上でコピーしたコピーバッファのものを貼り付ける
+^ ]
+***** ターミナル外でコピーしたコピーバッファのものを貼り付ける
+マウスの右キリックで貼り付けを選択する
