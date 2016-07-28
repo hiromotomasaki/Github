@@ -68,33 +68,34 @@ set-option -g default-terminal xterm-256color
 *** キーバインド
 **** 横分割
 unbind 2
-bind 2 split-window -v
 
+bind 2 split-window -v
 **** 縦分割
 unbind 3
-bind 3 split-window -h
 
+bind 3 split-window -h
 **** カレントペインの削除
 unbind k
-bind k kill-pane
 
+bind k kill-pane
 **** カレントウィンドウの削除
 unbind K
-bind K kill-window
 
+bind K kill-window
 **** keybind一覧(終了はq)
 unbind ?
-bind ? list-keys
 
+bind ? list-keys
 **** コピーモード時にemacsのキーバインドを利用する
 set-window-option -g mode-keys emacs
-
 **** コピーモードのコピー結果をクリップボードに渡す(#xselをインストールしておく必要あり)
 unbind -t emacs-copy M-w
-unbind -t emacs-copy C-w
-bind-key -t emacs-copy M-w copy-pipe "xsel -bi"
-bind-key -t emacs-copy C-w copy-pipe "xsel -bi"
 
+unbind -t emacs-copy C-w
+
+bind-key -t emacs-copy M-w copy-pipe "xsel -bi"
+
+bind-key -t emacs-copy C-w copy-pipe "xsel -bi"
 ** 概念
 詳しくは
 [[http://kanjuku-tomato.blogspot.jp/2014/02/tmux.html][tmuxを使い始めたので基本的な機能の使い方とかを整理してみた]]
